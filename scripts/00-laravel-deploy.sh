@@ -13,3 +13,4 @@ php artisan migrate --force
 php artisan route:clear
 echo "Clearing views..."
 php artisan route:list
+
