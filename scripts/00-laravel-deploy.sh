@@ -10,3 +10,6 @@ php artisan route:cache
 
 echo "Running migrations..."
 php artisan migrate --force
+php artisan route:clear
+echo "Clearing views..."
+php artisan route:list
