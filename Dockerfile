@@ -16,5 +16,5 @@ ENV LOG_CHANNEL stderr
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Install dependencies
-CMD ["sh", "-c", "/scripts/00-laravel-deploy.sh"]
+CMD ["00-laravel-deploy.sh"]
 
