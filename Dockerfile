@@ -1,20 +1,18 @@
-FROM php:8.2-fpm
+# Dockerfile
+# Base image (e.g. php + apache)
+FROM php:8.2-cli
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Set working directory
+WORKDIR /var/www
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+# Copy project files
+COPY . .
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# Copy the deploy script to the root
+COPY scripts/00-laravel-deploy.sh /usr/local/bin/00-laravel-deploy.sh
 
-# Install dependencies
-CMD ["00-laravel-deploy.sh"]
+# Make it executable
+RUN chmod +x /usr/local/bin/00-laravel-deploy.sh
 
+# Run the script as entrypoint or command
+CMD ["sh", "/usr/local/bin/00-laravel-deploy.sh"]
