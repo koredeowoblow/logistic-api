@@ -1,7 +1,7 @@
 # Base PHP image
 FROM php:8.2-fpm
 
-# Install system dependencies
+# Install system dependencies and PostgreSQL driver
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo_mysql zip
+    libpq-dev \
+    && docker-php-ext-install pdo_pgsql zip
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -25,7 +26,12 @@ COPY . .
 # Install Laravel dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Expose port (not always needed for Render)
+# Copy and make deploy script executable
+COPY scripts/00-laravel-deploy.sh /usr/local/bin/00-laravel-deploy.sh
+RUN chmod +x /usr/local/bin/00-laravel-deploy.sh
+
+# Expose port (optional)
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Start using deployment script
+CMD ["sh", "-c", "/usr/local/bin/00-laravel-deploy.sh"]
