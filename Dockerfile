@@ -27,5 +27,5 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 # Make your deploy script executable (if needed)
 RUN chmod +x /usr/local/bin/00-laravel-deploy.sh
 
-# Run Laravel deploy script (optional)
+# Run the script as entrypoint or command
 CMD ["sh", "/usr/local/bin/00-laravel-deploy.sh"]
