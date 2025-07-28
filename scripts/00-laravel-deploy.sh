@@ -1,16 +1,29 @@
 #!/usr/bin/env bash
-echo "Running composer"
-composer install --no-dev --working-dir=/var/www/html
 
-echo "Caching config..."
+echo "Installing Composer dependencies..."
+composer install --no-dev --optimize-autoloader --working-dir=/var/www/html
+
+echo "Setting permissions..."
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+echo "Caching configuration..."
 php artisan config:cache
 
 echo "Caching routes..."
 php artisan route:cache
 
-echo "Running migrations..."
+echo "Running database migrations..."
 php artisan migrate --force
+
+echo "Clearing route cache..."
 php artisan route:clear
-echo "Clearing views..."
+
+echo "Clearing and compiling views..."
+php artisan view:clear
+php artisan view:cache
+
+echo "Listing routes..."
 php artisan route:list
 
+echo "Laravel deployment completed. Starting PHP-FPM..."
+exec php-fpm
