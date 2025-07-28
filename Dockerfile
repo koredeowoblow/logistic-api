@@ -21,7 +21,8 @@ WORKDIR /var/www/html
 
 # Copy all project files
 COPY . .
-#Copy and make deploy script executable
+
+# Copy and make deploy script executable
 COPY scripts/00-laravel-deploy.sh /usr/local/bin/00-laravel-deploy.sh
 RUN chmod +x /usr/local/bin/00-laravel-deploy.sh
 
@@ -30,4 +31,3 @@ EXPOSE 8000
 
 # Start using deployment script
 CMD ["sh", "-c", "/usr/local/bin/00-laravel-deploy.sh"]
-
