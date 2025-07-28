@@ -25,5 +25,5 @@ php artisan view:cache
 echo "Listing routes..."
 php artisan route:list
 
-echo "Laravel deployment completed. Starting PHP-FPM..."
-exec php-fpm
+echo "Starting Laravel server..."
+php artisan serve --host=0.0.0.0 --port=80

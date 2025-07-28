@@ -33,7 +33,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
 # Expose port
-EXPOSE 8000
+EXPOSE 80
 
 # Run deployment script
 CMD ["sh", "-c", "/usr/local/bin/00-laravel-deploy.sh"]
